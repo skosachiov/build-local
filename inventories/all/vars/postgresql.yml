@@ -1,0 +1,17 @@
+var_postgresql_url_template: [ 'https://ftp.postgresql.org/pub/source/v', '/postgresql-', '.tar.gz' ]
+var_postgresql_versions:
+  - 16.1
+  - 16.0
+  - 15.5
+  - 15.4
+  - 14.10
+  - 14.9
+  - 13.13
+  - 13.12
+  - 12.17
+  - 12.16
+  - 11.22
+  - 11.21
+  - 10.23
+  - 10.22
+  - 9.6.24

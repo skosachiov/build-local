@@ -1,0 +1,10 @@
+- hosts: all
+
+  pre_tasks:
+    - name: Load vars
+      include_vars:
+        dir: "{{playbook_dir}}/inventories/all/vars"
+
+  roles:
+    - role: build-python
+    - role: build-nodejs

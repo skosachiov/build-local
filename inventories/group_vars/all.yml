@@ -1,0 +1,8 @@
+var_debian_based_os:
+  - Debian
+  - Ubuntu
+  - Astra Linux
+var_redhat_based_os:
+  - RedHat
+  - Rocky
+  - RED

@@ -1,0 +1,6 @@
+- include_tasks: main/env.yml
+
+- include_tasks: main/build.yml
+  loop: "{{var_python_versions}}"
+  loop_control:
+    loop_var: ver

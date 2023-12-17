@@ -1,0 +1,83 @@
+- name: Split version
+  set_fact:
+    vparts: "{{ver | split('.')}}"
+
+- name: Create temporary build directory
+  tempfile:
+    state: directory
+    suffix: build
+  register: tempdir
+
+- name: Backup local dir
+  command: mv /usr/local /usr/local.{{tempdir.path | basename}}
+
+- name: Download src
+  get_url:
+    url: "{{var_nodejs_url_template | join(ver)}}"
+    dest: "{{tempdir.path}}"
+  register: archive
+
+- name: Unarchive tgz
+  unarchive:
+    src: "{{archive.dest}}"
+    dest: "{{tempdir.path}}"
+    remote_src: true
+
+- name: Configure
+  command:
+    cmd: ./configure
+    chdir: "{{tempdir.path}}/node-v{{ver}}"
+
+- name: Make
+  command:
+    cmd: make -j4
+    chdir: "{{tempdir.path}}/node-v{{ver}}"
+
+- name: Make install
+  command:
+    cmd: make install
+    chdir: "{{tempdir.path}}/node-v{{ver}}"
+
+- name: Mkdir parent
+  file:
+    path: "{{tempdir.path}}/node{{vparts[0]}}-local_{{ver}}-0_amd64"
+    state: directory
+
+- name: Mkdirs
+  file:
+    path: "{{tempdir.path}}/node{{vparts[0]}}-local_{{ver}}-0_amd64/{{item}}"
+    state: directory
+  with_items:
+    - usr
+    - DEBIAN
+
+- name: Copy control
+  template:
+    src: control.j2
+    dest: "{{tempdir.path}}/node{{vparts[0]}}-local_{{ver}}-0_amd64/DEBIAN/control"
+
+- name: Move local folder
+  command: "mv /usr/local {{tempdir.path}}/node{{vparts[0]}}-local_{{ver}}-0_amd64/usr/"
+
+- name: Build deb
+  command:
+    cmd: "dpkg --build node{{vparts[0]}}-local_{{ver}}-0_amd64"
+    chdir: "{{tempdir.path}}"
+
+- name: Fetch pkg
+  synchronize:
+    src: "{{tempdir.path}}/node{{vparts[0]}}-local_{{ver}}-0_amd64.deb"
+    dest: "/tmp/node{{vparts[0]}}-local_{{ver}}-0_amd64.deb"
+    mode: pull
+
+- name: Restore local
+  command: "{{item}}"
+  with_items:
+    - "rm -f -r /usr/local"
+    - "mv /usr/local.{{tempdir.path | basename}} /usr/local"
+
+- name: Remove temp dir
+  file:
+    path: "{{tempdir.path}}"
+    state: absent
+

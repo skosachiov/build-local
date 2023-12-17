@@ -1,0 +1,13 @@
+var_mariadb_url_template: [ 'https://archive.mariadb.org/mariadb-', '/source/mariadb-', '.tar.gz' ]
+var_mariadb_version:
+  - 10.3.39
+  - 10.4.32
+  - 10.5.23
+  - 10.6.16
+  - 10.7.8
+  - 10.8.8
+  - 10.9.8
+  - 10.10.7
+  - 10.11.6
+  - 11.3.0
+  - 11.3.1
