@@ -8,11 +8,11 @@
 
 ## local
 
-`ssh-copy-id  ansible@192.168.122.244`
+`ssh-copy-id  ansible@192.168.122.244`<br>
 
-`ansible-playbook -v -b -i 192.168.122.244, -u ansible build-all.yml`
-or
-`ansible-playbook -v -b -i 192.168.122.244,192.168.122.101,192.168.122.167 -u ansible build-all.yml`
+`ansible-playbook -v -b -i 192.168.122.244, -u ansible build-all.yml`<br>
+or<br>
+`ansible-playbook -v -b -i 192.168.122.244,192.168.122.101,192.168.122.167 -u ansible build-all.yml`<br>
 
 output:
 - /tmp/192.168.122.244 (e.g. Ubuntu 18.04 packages)
