@@ -64,10 +64,17 @@
     cmd: "dpkg --build node{{vparts[0]}}-local_{{ver}}-0_amd64"
     chdir: "{{tempdir.path}}"
 
+- name: Mkdirs output
+  become: false
+  delegate_to: localhost
+  file:
+    path: "/tmp/{{ansible_default_ipv4.address}}"
+    state: directory
+
 - name: Fetch pkg
   synchronize:
     src: "{{tempdir.path}}/node{{vparts[0]}}-local_{{ver}}-0_amd64.deb"
-    dest: "/tmp/node{{vparts[0]}}-local_{{ver}}-0_amd64.deb"
+    dest: "/tmp/{{ansible_default_ipv4.address}}/node{{vparts[0]}}-local_{{ver}}-0_amd64.deb"
     mode: pull
 
 - name: Restore local

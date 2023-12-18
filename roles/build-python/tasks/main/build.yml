@@ -43,7 +43,7 @@
     path: "{{tempdir.path}}/python{{vparts[0]}}.{{vparts[1]}}-local_{{ver}}-0_amd64"
     state: directory
 
-- name: Mkdirs
+- name: Mkdirs build deb
   file:
     path: "{{tempdir.path}}/python{{vparts[0]}}.{{vparts[1]}}-local_{{ver}}-0_amd64/{{item}}"
     state: directory
@@ -64,10 +64,17 @@
     cmd: "dpkg --build python{{vparts[0]}}.{{vparts[1]}}-local_{{ver}}-0_amd64"
     chdir: "{{tempdir.path}}"
 
+- name: Mkdirs output
+  become: false
+  delegate_to: localhost
+  file:
+    path: "/tmp/{{ansible_default_ipv4.address}}"
+    state: directory
+
 - name: Fetch pkg
   synchronize:
     src: "{{tempdir.path}}/python{{vparts[0]}}.{{vparts[1]}}-local_{{ver}}-0_amd64.deb"
-    dest: "/tmp/python{{vparts[0]}}.{{vparts[1]}}-local_{{ver}}-0_amd64.deb"
+    dest: "/tmp/{{ansible_default_ipv4.address}}/python{{vparts[0]}}.{{vparts[1]}}-local_{{ver}}-0_amd64.deb"
     mode: pull
 
 - name: Restore local
