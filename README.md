@@ -2,9 +2,9 @@
 
 ## remote (vm)
 
-`useradd -m ansible`
-`passwd ansible`
-`echo "ansible ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers`
+`useradd -m ansible`<br>
+`passwd ansible`<br>
+`echo "ansible ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers`<br>
 
 ## local
 
